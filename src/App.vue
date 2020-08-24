@@ -1,15 +1,22 @@
 <template>
   <div id="app">
    <h1>Tarefas Shilton</h1>
+   <TaskGrid :tasks="tasks"></TaskGrid>
   </div>
 </template>
 
 <script>
-
+import TaskGrid from '@/components/TaskGrid';
 export default {
   name: 'App',
-  components: {
-    
+  components: {TaskGrid},
+  data() {
+    return {
+      tasks: [
+        { name: 'Estudar', pending: false },
+        { name: 'Comprar Sapato', pending: true },
+      ]
+    }
   }
 }
 </script>
