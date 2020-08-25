@@ -1,21 +1,37 @@
 <template>
   <div id="app">
    <h1>Tarefas Shilton</h1>
+
+   <NewTask @taskAdded="addTask"></NewTask>
    <TaskGrid :tasks="tasks"></TaskGrid>
+   
   </div>
 </template>
 
 <script>
 import TaskGrid from '@/components/TaskGrid';
+import NewTask from '@/components/NewTask';
 export default {
   name: 'App',
-  components: {TaskGrid},
+  components: {TaskGrid, NewTask},
   data() {
     return {
       tasks: [
         { name: 'Estudar', pending: false },
         { name: 'Comprar Sapato', pending: true },
       ]
+    }
+  },
+  methods: {
+    addTask(task) {
+      const existsName = t => t.name === task.name;
+      const reallyNew = this.tasks.filter(existsName).length == 0;
+      if(reallyNew){
+        this.tasks.push({
+          name: task.name,
+          pending: true
+        })
+      }
     }
   }
 }
