@@ -1,7 +1,7 @@
 <template>
   <div id="app">
    <h1>Tarefas Shilton</h1>
-
+   <TasksProgress :progress="progress"></TasksProgress>
    <NewTask @taskAdded="addTask"></NewTask>
 
    <TaskGrid 
@@ -13,17 +13,25 @@
 </template>
 
 <script>
+import TasksProgress from '@/components/TasksProgress';
 import TaskGrid from '@/components/TaskGrid';
 import NewTask from '@/components/NewTask';
 export default {
   name: 'App',
-  components: {TaskGrid, NewTask},
+  components: {TaskGrid, NewTask, TasksProgress},
   data() {
     return {
       tasks: [
         { name: 'Estudar', pending: false },
         { name: 'Comprar Sapato', pending: true },
       ]
+    }
+  },
+  computed: {
+    progress() {
+      const totalTaks = this.tasks.length;
+      const taksDone = this.tasks.filter(item => !item.pending).length;
+      return Math.round(taksDone / totalTaks * 100) || 0
     }
   },
   methods: {
