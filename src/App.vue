@@ -21,10 +21,7 @@ export default {
   components: {TaskGrid, NewTask, TasksProgress},
   data() {
     return {
-      tasks: [
-        { name: 'Estudar', pending: false },
-        { name: 'Comprar Sapato', pending: true },
-      ]
+      tasks: [],
     }
   },
   computed: {
@@ -33,6 +30,19 @@ export default {
       const taksDone = this.tasks.filter(item => !item.pending).length;
       return Math.round(taksDone / totalTaks * 100) || 0
     }
+  },
+  watch: {
+      tasks: {
+        deep: true, //Controla alteração interna do Array
+        handler() {
+          localStorage.setItem('tasks', JSON.stringify(this.tasks))
+        }
+      }
+  },
+  created() {
+    const jsonStorageTasks = localStorage.getItem('tasks');
+    const arrayDataTasks = JSON.parse(jsonStorageTasks);
+      this.tasks = Array.isArray(arrayDataTasks) ? arrayDataTasks : [];
   },
   methods: {
     addTask(task) {
